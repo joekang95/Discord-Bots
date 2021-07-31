@@ -1,5 +1,9 @@
 
 MusicBot/node_modules/
 MusicBot/config/
+PollBot/node_modules/
+PollBot/config/
+PixivBot/node_modules/
+PixivBot/config/
 package.json
 package-lock.json
