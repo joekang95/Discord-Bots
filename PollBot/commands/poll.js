@@ -15,6 +15,12 @@ module.exports =
         var question = `**${ params[ 0 ] }**\n\n`;
 
         const options = params.length - 1;
+
+        if( options > numbers.length )
+        {
+            return message.channel.send( ' Too many options! ' );
+        }
+
         for( i = 0; i < options; ++i )
         {
            question += `${ numbers[ i ] }: ${ params[ i + 1 ] }\n\n`;
