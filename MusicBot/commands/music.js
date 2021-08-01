@@ -5,7 +5,7 @@ module.exports =
 {
     name: 'music',
     description : 'music command',
-    async execute( message, args, musicchannel )
+    async execute( message, args )
     {
         const voicechannel = message.member.voice.channel;
         if( !voicechannel )
@@ -28,7 +28,7 @@ module.exports =
                     return;
                 }
 
-                play( message, args, musicchannel );
+                play( message, args );
                 break;
             case 'stop':
                 stop( message );
@@ -45,13 +45,13 @@ module.exports =
 }
 
 const servers = {};
-const play = async ( message, args, musicchannel ) =>
+const play = async ( message, args ) =>
 {
     if( !servers[ message.guild.id ] )
     {
         servers[ message.guild.id ] = 
         { 
-            voicechannel: musicchannel,
+            voicechannel: message.member.voice.channel,
             textchannel: message.channel,
             connection: null,
             songs: [] 

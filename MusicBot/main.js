@@ -4,7 +4,7 @@ const fs = require( 'fs' );
 const client = new discord.Client();
 client.commands = new discord.Collection();
 
-const { prefix, token, musicchannel, commandchannel } = require( './config/config.json');
+const { prefix, token, commandchannel } = require( './config/config.json');
 
 const commandfiles = fs.readdirSync( './commands/' ).filter( file => file.endsWith('.js') );
 for ( const file of commandfiles ) 
@@ -35,7 +35,7 @@ client.on( 'message', message =>
     const command = args.shift().toLowerCase();
 
     if ( client.commands.get( command ) ) {
-        client.commands.get( command ).execute( message, args, musicchannel );
+        client.commands.get( command ).execute( message, args );
     }
     else{
         const embed = new discord.MessageEmbed()
