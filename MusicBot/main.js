@@ -4,7 +4,7 @@ const fs = require( 'fs' );
 const client = new discord.Client();
 client.commands = new discord.Collection();
 
-const { prefix, token } = require( './config/config.json');
+const { prefix, token, musicchannel, commandchannel } = require( './config/config.json');
 
 const commandfiles = fs.readdirSync( './commands/' ).filter( file => file.endsWith('.js') );
 for ( const file of commandfiles ) 
@@ -13,8 +13,10 @@ for ( const file of commandfiles )
     client.commands.set( command.name, command );
 }
 
-client.once( 'ready', () =>
+client.once( 'ready', async () =>
 {
+    console.log( 'lalala online' );
+    await client.user.setActivity( 'D4DJ' );
 } )
 
 client.on( 'message', message => 
@@ -24,11 +26,29 @@ client.on( 'message', message =>
         return;
     }
 
+    if( message.channel.id != commandchannel )
+    {
+        return;
+    }
+
     const args = message.content.slice( prefix.length ).split( / +/ );
     const command = args.shift().toLowerCase();
 
     if ( client.commands.get( command ) ) {
-        client.commands.get( command ).execute( message, args );
+        client.commands.get( command ).execute( message, args, musicchannel );
+    }
+    else{
+        const embed = new discord.MessageEmbed()
+        .setColor( '#0099ff' )
+        .setTitle( 'Usage' )
+        .addFields
+        (
+            { name: 'Play', value: '!music play [ youtube link ]\n!music play [ keyword ]', inline: true },
+            { name: 'Skip', value: '!music skip', inline: true },
+            { name: 'List', value: '!music list', inline: true }
+        );
+
+        return message.channel.send( embed );
     }
 });
 
